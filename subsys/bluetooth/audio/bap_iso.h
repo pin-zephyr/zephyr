@@ -11,6 +11,11 @@
 #include <zephyr/bluetooth/audio/audio.h>
 #include <zephyr/bluetooth/audio/bap.h>
 
+/* BIS index 1 uses BIT(1) and BIS index 2 uses BIT(2) in the bitfield,
+ * the higher layer BAP uses BIT(0) for Index 1 and BIT(1) for Index 2,
+ * and it makes sense to stay as close as possible to existing specs as possible.*/
+#define BT_ISO_BIS_INDEX_BIT(x) (BIT(x-1))
+
 struct bt_bap_iso_dir {
 	struct bt_bap_stream *stream;
 	struct bt_bap_ep *ep;
