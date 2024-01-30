@@ -67,6 +67,7 @@ typedef void (*bt_mcc_read_player_name_cb)(struct bt_conn *conn, int err, const 
 typedef void (*bt_mcc_read_icon_obj_id_cb)(struct bt_conn *conn, int err, uint64_t id);
 #endif /* CONFIG_BT_OTS_CLIENT */
 
+#if defined(CONFIG_BT_MCC_READ_MEDIA_PLAYER_ICON_URL)
 /**
  * @brief Callback function for bt_mcc_read_icon_url()
  *
@@ -77,6 +78,7 @@ typedef void (*bt_mcc_read_icon_obj_id_cb)(struct bt_conn *conn, int err, uint64
  * @param icon_url      The URL of the Icon
  */
 typedef void (*bt_mcc_read_icon_url_cb)(struct bt_conn *conn, int err, const char *icon_url);
+#endif /* defined(CONFIG_BT_MCC_READ_MEDIA_PLAYER_ICON_URL) */
 
 /**
  * @brief Callback function for track changed notifications
@@ -92,6 +94,7 @@ typedef void (*bt_mcc_read_icon_url_cb)(struct bt_conn *conn, int err, const cha
 typedef void (*bt_mcc_track_changed_ntf_cb)(struct bt_conn *conn, int err);
 
 
+#if defined(CONFIG_BT_MCC_READ_TRACK_TITLE)
 /**
  * @brief Callback function for bt_mcc_read_track_title()
  *
@@ -102,7 +105,9 @@ typedef void (*bt_mcc_track_changed_ntf_cb)(struct bt_conn *conn, int err);
  * @param title         The title of the track
  */
 typedef void (*bt_mcc_read_track_title_cb)(struct bt_conn *conn, int err, const char *title);
+#endif /* defined(CONFIG_BT_MCC_READ_TRACK_TITLE) */
 
+#if defined(CONFIG_BT_MCC_READ_TRACK_DURATION)
 /**
  * @brief Callback function for bt_mcc_read_track_duration()
  *
@@ -113,7 +118,9 @@ typedef void (*bt_mcc_read_track_title_cb)(struct bt_conn *conn, int err, const 
  * @param dur           The duration of the track
  */
 typedef void (*bt_mcc_read_track_duration_cb)(struct bt_conn *conn, int err, int32_t dur);
+#endif /* defined(CONFIG_BT_MCC_READ_TRACK_DURATION) */
 
+#if defined(CONFIG_BT_MCC_READ_TRACK_POSITION)
 /**
  * @brief Callback function for bt_mcc_read_track_position()
  *
@@ -124,7 +131,9 @@ typedef void (*bt_mcc_read_track_duration_cb)(struct bt_conn *conn, int err, int
  * @param pos           The Track Position
  */
 typedef void (*bt_mcc_read_track_position_cb)(struct bt_conn *conn, int err, int32_t pos);
+#endif /* defined(CONFIG_BT_MCC_READ_TRACK_POSITION) */
 
+#if defined(CONFIG_BT_MCC_SET_TRACK_POSITION)
 /**
  * @brief Callback function for bt_mcc_set_track_position()
  *
@@ -135,7 +144,9 @@ typedef void (*bt_mcc_read_track_position_cb)(struct bt_conn *conn, int err, int
  * @param pos           The Track Position set (or attempted to set)
  */
 typedef void (*bt_mcc_set_track_position_cb)(struct bt_conn *conn, int err, int32_t pos);
+#endif /* defined(CONFIG_BT_MCC_SET_TRACK_POSITION) */
 
+#if defined (CONFIG_BT_MCC_READ_PLAYBACK_SPEED)
 /**
  * @brief Callback function for bt_mcc_read_playback_speed()
  *
@@ -146,7 +157,9 @@ typedef void (*bt_mcc_set_track_position_cb)(struct bt_conn *conn, int err, int3
  * @param speed         The Playback Speed
  */
 typedef void (*bt_mcc_read_playback_speed_cb)(struct bt_conn *conn, int err, int8_t speed);
+#endif /* defined (CONFIG_BT_MCC_READ_PLAYBACK_SPEED) */
 
+#if defined (CONFIG_BT_MCC_SET_PLAYBACK_SPEED)
 /**
  * @brief Callback function for bt_mcc_set_playback_speed()
  *
@@ -157,7 +170,9 @@ typedef void (*bt_mcc_read_playback_speed_cb)(struct bt_conn *conn, int err, int
  * @param speed         The Playback Speed set (or attempted to set)
  */
 typedef void (*bt_mcc_set_playback_speed_cb)(struct bt_conn *conn, int err, int8_t speed);
+#endif /* defined (CONFIG_BT_MCC_SET_PLAYBACK_SPEED) */
 
+#if defined (CONFIG_BT_MCC_READ_SEEKING_SPEED)
 /**
  * @brief Callback function for bt_mcc_read_seeking_speed()
  *
@@ -168,6 +183,7 @@ typedef void (*bt_mcc_set_playback_speed_cb)(struct bt_conn *conn, int err, int8
  * @param speed         The Seeking Speed
  */
 typedef void (*bt_mcc_read_seeking_speed_cb)(struct bt_conn *conn, int err, int8_t speed);
+#endif /* defined (CONFIG_BT_MCC_READ_SEEKING_SPEED) */
 
 #ifdef CONFIG_BT_OTS_CLIENT
 /**
@@ -260,6 +276,7 @@ typedef void (*bt_mcc_set_current_group_obj_id_cb)(struct bt_conn *conn, int err
 
 #endif /* CONFIG_BT_OTS_CLIENT */
 
+#if defined(CONFIG_BT_MCC_READ_PLAYING_ORDER)
 /**
  * @brief Callback function for bt_mcc_read_playing_order()
  *
@@ -270,7 +287,9 @@ typedef void (*bt_mcc_set_current_group_obj_id_cb)(struct bt_conn *conn, int err
  * @param order         The playback order
  */
 typedef void (*bt_mcc_read_playing_order_cb)(struct bt_conn *conn, int err, uint8_t order);
+#endif /* defined(CONFIG_BT_MCC_READ_PLAYING_ORDER) */
 
+#if defined(CONFIG_BT_MCC_SET_PLAYING_ORDER)
 /**
  * @brief Callback function for bt_mcc_set_playing_order()
  *
@@ -281,7 +300,9 @@ typedef void (*bt_mcc_read_playing_order_cb)(struct bt_conn *conn, int err, uint
  * @param order         The Playing Order set (or attempted to set)
  */
 typedef void (*bt_mcc_set_playing_order_cb)(struct bt_conn *conn, int err, uint8_t order);
+#endif /* defined(CONFIG_BT_MCC_SET_PLAYING_ORDER) */
 
+#if defined(CONFIG_BT_MCC_READ_PLAYING_ORDER_SUPPORTED)
 /**
  * @brief Callback function for bt_mcc_read_playing_orders_supported()
  *
@@ -293,7 +314,9 @@ typedef void (*bt_mcc_set_playing_order_cb)(struct bt_conn *conn, int err, uint8
  */
 typedef void (*bt_mcc_read_playing_orders_supported_cb)(struct bt_conn *conn, int err,
 							uint16_t orders);
+#endif /* defined(CONFIG_BT_MCC_READ_PLAYING_ORDER_SUPPORTED) */
 
+#if defined(CONFIG_BT_MCC_READ_MEDIA_STATE)
 /**
  * @brief Callback function for bt_mcc_read_media_state()
  *
@@ -304,7 +327,9 @@ typedef void (*bt_mcc_read_playing_orders_supported_cb)(struct bt_conn *conn, in
  * @param state         The Media State
  */
 typedef void (*bt_mcc_read_media_state_cb)(struct bt_conn *conn, int err, uint8_t state);
+#endif /* defined(CONFIG_BT_MCC_READ_MEDIA_STATE) */
 
+#if defined(CONFIG_BT_MCC_SET_MEDIA_CONTROL_POINT)
 /**
  * @brief Callback function for bt_mcc_send_cmd()
  *
@@ -315,6 +340,7 @@ typedef void (*bt_mcc_read_media_state_cb)(struct bt_conn *conn, int err, uint8_
  * @param cmd           The command sent
  */
 typedef void (*bt_mcc_send_cmd_cb)(struct bt_conn *conn, int err, const struct mpl_cmd *cmd);
+#endif /* defined(CONFIG_BT_MCC_SET_MEDIA_CONTROL_POINT) */
 
 /**
  * @brief Callback function for command notifications
@@ -331,6 +357,7 @@ typedef void (*bt_mcc_send_cmd_cb)(struct bt_conn *conn, int err, const struct m
  */
 typedef void (*bt_mcc_cmd_ntf_cb)(struct bt_conn *conn, int err, const struct mpl_cmd_ntf *ntf);
 
+#if defined(CONFIG_BT_MCC_READ_MEDIA_CONTROL_POINT_OPCODES_SUPPORTED)
 /**
  * @brief Callback function for bt_mcc_read_opcodes_supported()
  *
@@ -342,6 +369,7 @@ typedef void (*bt_mcc_cmd_ntf_cb)(struct bt_conn *conn, int err, const struct mp
  */
 typedef void (*bt_mcc_read_opcodes_supported_cb)(struct bt_conn *conn, int err,
 						 uint32_t opcodes);
+#endif /* defined(CONFIG_BT_MCC_READ_MEDIA_CONTROL_POINT_OPCODES_SUPPORTED) */
 
 #ifdef CONFIG_BT_OTS_CLIENT
 /**
@@ -389,6 +417,7 @@ typedef void (*bt_mcc_read_search_results_obj_id_cb)(struct bt_conn *conn,
 						     int err, uint64_t id);
 #endif /* CONFIG_BT_OTS_CLIENT */
 
+#if defined(CONFIG_BT_MCC_READ_CONTENT_CONTROL_ID)
 /**
  * @brief Callback function for bt_mcc_read_content_control_id()
  *
@@ -400,6 +429,8 @@ typedef void (*bt_mcc_read_search_results_obj_id_cb)(struct bt_conn *conn,
  */
 typedef void (*bt_mcc_read_content_control_id_cb)(struct bt_conn *conn,
 						  int err, uint8_t ccid);
+#endif /* defined(CONFIG_BT_MCC_READ_CONTENT_CONTROL_ID) */
+
 #ifdef CONFIG_BT_OTS_CLIENT
 /**** Callback functions for the included Object Transfer service *************/
 
@@ -519,15 +550,31 @@ struct bt_mcc_cb {
 #ifdef CONFIG_BT_OTS_CLIENT
 	bt_mcc_read_icon_obj_id_cb               read_icon_obj_id;
 #endif /* CONFIG_BT_OTS_CLIENT */
+#if defined(CONFIG_BT_MCC_READ_MEDIA_PLAYER_ICON_URL)
 	bt_mcc_read_icon_url_cb                  read_icon_url;
+#endif /* defined(CONFIG_BT_MCC_READ_MEDIA_PLAYER_ICON_URL) */
 	bt_mcc_track_changed_ntf_cb              track_changed_ntf;
+#if defined(CONFIG_BT_MCC_READ_TRACK_TITLE)
 	bt_mcc_read_track_title_cb               read_track_title;
+#endif /* defined(CONFIG_BT_MCC_READ_TRACK_TITLE) */
+#if defined(CONFIG_BT_MCC_READ_TRACK_DURATION)
 	bt_mcc_read_track_duration_cb            read_track_duration;
+#endif /* defined(CONFIG_BT_MCC_READ_TRACK_DURATION) */
+#if defined(CONFIG_BT_MCC_READ_TRACK_POSITION)
 	bt_mcc_read_track_position_cb            read_track_position;
+#endif /* defined(CONFIG_BT_MCC_READ_TRACK_POSITION) */
+#if defined(CONFIG_BT_MCC_SET_TRACK_POSITION)
 	bt_mcc_set_track_position_cb             set_track_position;
+#endif /* defined(CONFIG_BT_MCC_SET_TRACK_POSITION) */
+#if defined (CONFIG_BT_MCC_READ_PLAYBACK_SPEED)
 	bt_mcc_read_playback_speed_cb            read_playback_speed;
+#endif /* defined (CONFIG_BT_MCC_READ_PLAYBACK_SPEED) */
+#if defined (CONFIG_BT_MCC_SET_PLAYBACK_SPEED)
 	bt_mcc_set_playback_speed_cb             set_playback_speed;
+#endif /* defined (CONFIG_BT_MCC_SET_PLAYBACK_SPEED) */
+#if defined (CONFIG_BT_MCC_READ_SEEKING_SPEED)
 	bt_mcc_read_seeking_speed_cb             read_seeking_speed;
+#endif /* defined (CONFIG_BT_MCC_READ_SEEKING_SPEED) */
 #ifdef CONFIG_BT_OTS_CLIENT
 	bt_mcc_read_segments_obj_id_cb           read_segments_obj_id;
 	bt_mcc_read_current_track_obj_id_cb      read_current_track_obj_id;
@@ -538,19 +585,33 @@ struct bt_mcc_cb {
 	bt_mcc_set_current_group_obj_id_cb       set_current_group_obj_id;
 	bt_mcc_read_parent_group_obj_id_cb       read_parent_group_obj_id;
 #endif /* CONFIG_BT_OTS_CLIENT */
+#if defined(CONFIG_BT_MCC_READ_PLAYING_ORDER)
 	bt_mcc_read_playing_order_cb	         read_playing_order;
+#endif /* defined(CONFIG_BT_MCC_READ_PLAYING_ORDER) */
+#if defined(CONFIG_BT_MCC_SET_PLAYING_ORDER)
 	bt_mcc_set_playing_order_cb              set_playing_order;
+#endif /* defined(CONFIG_BT_MCC_SET_PLAYING_ORDER) */
+#if defined(CONFIG_BT_MCC_READ_PLAYING_ORDER_SUPPORTED)
 	bt_mcc_read_playing_orders_supported_cb  read_playing_orders_supported;
+#endif /* defined(CONFIG_BT_MCC_READ_PLAYING_ORDER_SUPPORTED) */
+#if defined(CONFIG_BT_MCC_READ_MEDIA_STATE)
 	bt_mcc_read_media_state_cb               read_media_state;
+#endif /* defined(CONFIG_BT_MCC_READ_MEDIA_STATE) */
+#if defined(CONFIG_BT_MCC_SET_MEDIA_CONTROL_POINT)
 	bt_mcc_send_cmd_cb                       send_cmd;
+#endif /* defined(CONFIG_BT_MCC_SET_MEDIA_CONTROL_POINT) */
 	bt_mcc_cmd_ntf_cb                        cmd_ntf;
+#if defined(CONFIG_BT_MCC_READ_MEDIA_CONTROL_POINT_OPCODES_SUPPORTED)
 	bt_mcc_read_opcodes_supported_cb         read_opcodes_supported;
+#endif /* defined(CONFIG_BT_MCC_READ_MEDIA_CONTROL_POINT_OPCODES_SUPPORTED) */
 #ifdef CONFIG_BT_OTS_CLIENT
 	bt_mcc_send_search_cb                    send_search;
 	bt_mcc_search_ntf_cb                     search_ntf;
 	bt_mcc_read_search_results_obj_id_cb     read_search_results_obj_id;
 #endif /* CONFIG_BT_OTS_CLIENT */
+#if defined(CONFIG_BT_MCC_READ_CONTENT_CONTROL_ID)
 	bt_mcc_read_content_control_id_cb        read_content_control_id;
+#endif /* defined(CONFIG_BT_MCC_READ_CONTENT_CONTROL_ID) */
 #ifdef CONFIG_BT_OTS_CLIENT
 	bt_mcc_otc_obj_selected_cb               otc_obj_selected;
 	bt_mcc_otc_obj_metadata_cb               otc_obj_metadata;
@@ -611,6 +672,7 @@ int bt_mcc_read_player_name(struct bt_conn *conn);
 int bt_mcc_read_icon_obj_id(struct bt_conn *conn);
 #endif /* CONFIG_BT_OTS_CLIENT */
 
+#if defined(CONFIG_BT_MCC_READ_MEDIA_PLAYER_ICON_URL)
 /**
  * @brief Read Icon Object URL
  *
@@ -619,7 +681,9 @@ int bt_mcc_read_icon_obj_id(struct bt_conn *conn);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_read_icon_url(struct bt_conn *conn);
+#endif /* defined(CONFIG_BT_MCC_READ_MEDIA_PLAYER_ICON_URL) */
 
+#if defined(CONFIG_BT_MCC_READ_TRACK_TITLE)
 /**
  * @brief Read Track Title
  *
@@ -628,7 +692,9 @@ int bt_mcc_read_icon_url(struct bt_conn *conn);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_read_track_title(struct bt_conn *conn);
+#endif /* defined(CONFIG_BT_MCC_READ_TRACK_TITLE) */
 
+#if defined(CONFIG_BT_MCC_READ_TRACK_DURATION)
 /**
  * @brief Read Track Duration
  *
@@ -637,7 +703,9 @@ int bt_mcc_read_track_title(struct bt_conn *conn);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_read_track_duration(struct bt_conn *conn);
+#endif /* defined(CONFIG_BT_MCC_READ_TRACK_DURATION) */
 
+#if defined(CONFIG_BT_MCC_READ_TRACK_POSITION)
 /**
  * @brief Read Track Position
  *
@@ -646,7 +714,9 @@ int bt_mcc_read_track_duration(struct bt_conn *conn);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_read_track_position(struct bt_conn *conn);
+#endif /* defined(CONFIG_BT_MCC_READ_TRACK_POSITION) */
 
+#if defined(CONFIG_BT_MCC_SET_TRACK_POSITION)
 /**
  * @brief Set Track position
  *
@@ -656,7 +726,9 @@ int bt_mcc_read_track_position(struct bt_conn *conn);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_set_track_position(struct bt_conn *conn, int32_t pos);
+#endif /* defined(CONFIG_BT_MCC_SET_TRACK_POSITION) */
 
+#if defined (CONFIG_BT_MCC_READ_PLAYBACK_SPEED)
 /**
  * @brief Read Playback speed
  *
@@ -665,7 +737,9 @@ int bt_mcc_set_track_position(struct bt_conn *conn, int32_t pos);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_read_playback_speed(struct bt_conn *conn);
+#endif /* defined (CONFIG_BT_MCC_READ_PLAYBACK_SPEED) */
 
+#if defined (CONFIG_BT_MCC_SET_PLAYBACK_SPEED)
 /**
  * @brief Set Playback Speed
  *
@@ -675,7 +749,9 @@ int bt_mcc_read_playback_speed(struct bt_conn *conn);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_set_playback_speed(struct bt_conn *conn, int8_t speed);
+#endif /* defined (CONFIG_BT_MCC_SET_PLAYBACK_SPEED) */
 
+#if defined (CONFIG_BT_MCC_READ_SEEKING_SPEED)
 /**
  * @brief Read Seeking speed
  *
@@ -684,6 +760,7 @@ int bt_mcc_set_playback_speed(struct bt_conn *conn, int8_t speed);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_read_seeking_speed(struct bt_conn *conn);
+#endif /* defined (CONFIG_BT_MCC_READ_SEEKING_SPEED) */
 
 #ifdef CONFIG_BT_OTS_CLIENT
 /**
@@ -769,6 +846,7 @@ int bt_mcc_set_current_group_obj_id(struct bt_conn *conn, uint64_t id);
 int bt_mcc_read_parent_group_obj_id(struct bt_conn *conn);
 #endif /* CONFIG_BT_OTS_CLIENT */
 
+#if defined(CONFIG_BT_MCC_READ_PLAYING_ORDER)
 /**
  * @brief Read Playing Order
  *
@@ -777,7 +855,9 @@ int bt_mcc_read_parent_group_obj_id(struct bt_conn *conn);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_read_playing_order(struct bt_conn *conn);
+#endif /* defined(CONFIG_BT_MCC_READ_PLAYING_ORDER) */
 
+#if defined(CONFIG_BT_MCC_SET_PLAYING_ORDER)
 /**
  * @brief Set Playing Order
  *
@@ -787,7 +867,9 @@ int bt_mcc_read_playing_order(struct bt_conn *conn);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_set_playing_order(struct bt_conn *conn, uint8_t order);
+#endif /* defined(CONFIG_BT_MCC_SET_PLAYING_ORDER) */
 
+#if defined(CONFIG_BT_MCC_READ_PLAYING_ORDER_SUPPORTED)
 /**
  * @brief Read Playing Orders Supported
  *
@@ -796,7 +878,9 @@ int bt_mcc_set_playing_order(struct bt_conn *conn, uint8_t order);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_read_playing_orders_supported(struct bt_conn *conn);
+#endif /* defined(CONFIG_BT_MCC_READ_PLAYING_ORDER_SUPPORTED) */
 
+#if defined(CONFIG_BT_MCC_READ_MEDIA_STATE)
 /**
  * @brief Read Media State
  *
@@ -805,7 +889,9 @@ int bt_mcc_read_playing_orders_supported(struct bt_conn *conn);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_read_media_state(struct bt_conn *conn);
+#endif /* defined(CONFIG_BT_MCC_READ_MEDIA_STATE) */
 
+#if defined(CONFIG_BT_MCC_SET_MEDIA_CONTROL_POINT)
 /**
  * @brief Send a command
  *
@@ -817,7 +903,9 @@ int bt_mcc_read_media_state(struct bt_conn *conn);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_send_cmd(struct bt_conn *conn, const struct mpl_cmd *cmd);
+#endif /* defined(CONFIG_BT_MCC_SET_MEDIA_CONTROL_POINT) */
 
+#if defined(CONFIG_BT_MCC_READ_MEDIA_CONTROL_POINT_OPCODES_SUPPORTED)
 /**
  * @brief Read Opcodes Supported
  *
@@ -826,6 +914,7 @@ int bt_mcc_send_cmd(struct bt_conn *conn, const struct mpl_cmd *cmd);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_read_opcodes_supported(struct bt_conn *conn);
+#endif /* defined(CONFIG_BT_MCC_READ_MEDIA_CONTROL_POINT_OPCODES_SUPPORTED) */
 
 #ifdef CONFIG_BT_OTS_CLIENT
 /**
@@ -850,6 +939,7 @@ int bt_mcc_send_search(struct bt_conn *conn, const struct mpl_search *search);
 int bt_mcc_read_search_results_obj_id(struct bt_conn *conn);
 #endif /* CONFIG_BT_OTS_CLIENT */
 
+#if defined(CONFIG_BT_MCC_READ_CONTENT_CONTROL_ID)
 /**
  * @brief Read Content Control ID
  *
@@ -858,6 +948,7 @@ int bt_mcc_read_search_results_obj_id(struct bt_conn *conn);
  * @return 0 if success, errno on failure.
  */
 int bt_mcc_read_content_control_id(struct bt_conn *conn);
+#endif /* defined(CONFIG_BT_MCC_READ_CONTENT_CONTROL_ID) */
 
 #ifdef CONFIG_BT_OTS_CLIENT
 /**
