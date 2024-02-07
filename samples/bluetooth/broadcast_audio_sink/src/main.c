@@ -474,7 +474,7 @@ static struct bt_bap_stream_ops stream_ops = {
 };
 
 #if defined(CONFIG_TARGET_BROADCAST_CHANNEL)
-static bool find_valid_bis_cb(const struct bt_bap_base_subgroup_bis *bis,
+static bool find_valid_bis_cb(const struct bt_bap_bass_subgroup_bis *bis,
 					       void *user_data)
 {
 	int err;
@@ -482,7 +482,7 @@ static bool find_valid_bis_cb(const struct bt_bap_base_subgroup_bis *bis,
 	enum bt_audio_location chan_allocation;
 	uint8_t *bis_index = user_data;
 
-	err = bt_bap_base_subgroup_bis_codec_to_codec_cfg(bis, &codec_cfg);
+	err = bt_bap_bass_subgroup_bis_codec_to_codec_cfg(bis, &codec_cfg);
 	if (err != 0) {
 		printk("Could not find codec configuration (err=%d)\n", err);
 		return true;
@@ -505,10 +505,10 @@ static bool find_valid_bis_cb(const struct bt_bap_base_subgroup_bis *bis,
 	return true;
 }
 
-static bool find_valid_bis_in_subgroup_cb(const struct bt_bap_base_subgroup *subgroup,
+static bool find_valid_bis_in_subgroup_cb(const struct bt_bap_bass_subgroup *subgroup,
 					  void *user_data)
 {
-	return bt_bap_base_subgroup_foreach_bis(subgroup, find_valid_bis_cb, user_data)
+	return bt_bap_bass_subgroup_foreach_bis(subgroup, find_valid_bis_cb, user_data)
 	       == -ECANCELED ? false : true;
 }
 
@@ -708,7 +708,7 @@ static void broadcast_code_cb(struct bt_conn *conn,
 
 static int bis_sync_req_cb(struct bt_conn *conn,
 			   const struct bt_bap_scan_delegator_recv_state *recv_state,
-			   const uint32_t bis_sync_req[BT_BAP_SCAN_DELEGATOR_MAX_SUBGROUPS])
+			   const uint32_t bis_sync_req[CONFIG_BT_BAP_BASS_MAX_SUBGROUPS])
 {
 	const bool bis_synced = k_sem_count_get(&sem_bis_synced) > 0U;
 

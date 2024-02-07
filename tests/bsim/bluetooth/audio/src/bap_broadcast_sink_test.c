@@ -52,7 +52,7 @@ static K_SEM_DEFINE(sem_stopped, 0U, ARRAY_SIZE(streams));
 static const uint32_t bis_index_mask = BIT_MASK(ARRAY_SIZE(streams) + 1U);
 static uint32_t bis_index_bitfield;
 
-static bool base_subgroup_cb(const struct bt_bap_base_subgroup *subgroup, void *user_data)
+static bool base_subgroup_cb(const struct bt_bap_bass_subgroup *subgroup, void *user_data)
 {
 	static uint8_t metadata[CONFIG_BT_AUDIO_CODEC_CFG_MAX_METADATA_SIZE];
 	static size_t metadata_size;
@@ -237,7 +237,7 @@ static int pa_sync_term_req_cb(struct bt_conn *conn,
 
 static int bis_sync_req_cb(struct bt_conn *conn,
 			   const struct bt_bap_scan_delegator_recv_state *recv_state,
-			   const uint32_t bis_sync_req[BT_BAP_SCAN_DELEGATOR_MAX_SUBGROUPS])
+			   const uint32_t bis_sync_req[CONFIG_BT_BAP_BASS_MAX_SUBGROUPS])
 {
 	printk("BIS sync request received for %p: 0x%08x\n", recv_state, bis_sync_req[0]);
 	/* We only care about a single subgroup in this test */

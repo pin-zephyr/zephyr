@@ -85,7 +85,7 @@ static bool subgroup_data_func_cb(struct bt_data *data, void *user_data)
 	return true;
 }
 
-static bool valid_subgroup_metadata_cb(const struct bt_bap_base_subgroup *subgroup, void *user_data)
+static bool valid_subgroup_metadata_cb(const struct bt_bap_bass_subgroup *subgroup, void *user_data)
 {
 	bool stream_context_found = false;
 	uint8_t *meta;

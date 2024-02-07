@@ -103,7 +103,7 @@ static void update_recv_state_big_synced(const struct bt_bap_broadcast_sink *sin
 
 	mod_src_param.num_subgroups = sink->subgroup_count;
 	for (uint8_t i = 0U; i < sink->subgroup_count; i++) {
-		struct bt_bap_scan_delegator_subgroup *subgroup_param = &mod_src_param.subgroups[i];
+		struct bt_bap_bass_subgroup *subgroup_param = &mod_src_param.subgroups[i];
 		const struct bt_bap_broadcast_sink_subgroup *sink_subgroup = &sink->subgroups[i];
 
 		/* Set the bis_sync value to the indexes available per subgroup */
@@ -437,10 +437,10 @@ static void broadcast_sink_add_src(struct bt_bap_broadcast_sink *sink)
 	}
 }
 
-static bool base_subgroup_meta_cb(const struct bt_bap_base_subgroup *subgroup, void *user_data)
+static bool base_subgroup_meta_cb(const struct bt_bap_bass_subgroup *subgroup, void *user_data)
 {
 	struct bt_bap_scan_delegator_mod_src_param *mod_src_param = user_data;
-	struct bt_bap_scan_delegator_subgroup *subgroup_param;
+	struct bt_bap_bass_subgroup *subgroup_param;
 	uint8_t *meta;
 	int ret;
 
@@ -496,7 +496,7 @@ static void update_recv_state_base(const struct bt_bap_broadcast_sink *sink,
 	mod_src_param.broadcast_id = recv_state->broadcast_id;
 	mod_src_param.num_subgroups = sink->subgroup_count;
 	for (uint8_t i = 0U; i < sink->subgroup_count; i++) {
-		struct bt_bap_scan_delegator_subgroup *subgroup_param = &mod_src_param.subgroups[i];
+		struct bt_bap_bass_subgroup *subgroup_param = &mod_src_param.subgroups[i];
 		const struct bt_bap_broadcast_sink_subgroup *sink_subgroup = &sink->subgroups[i];
 
 		/* Set the bis_sync value to the indexes available per subgroup */
@@ -522,7 +522,7 @@ static bool codec_lookup_id(const struct bt_pacs_cap *cap, void *user_data)
 	return true;
 }
 
-static bool base_subgroup_bis_index_cb(const struct bt_bap_base_subgroup_bis *bis, void *user_data)
+static bool base_subgroup_bis_index_cb(const struct bt_bap_bass_subgroup_bis *bis, void *user_data)
 {
 	uint32_t *bis_indexes = user_data;
 
@@ -531,7 +531,7 @@ static bool base_subgroup_bis_index_cb(const struct bt_bap_base_subgroup_bis *bi
 	return true;
 }
 
-static bool base_subgroup_cb(const struct bt_bap_base_subgroup *subgroup, void *user_data)
+static bool base_subgroup_cb(const struct bt_bap_bass_subgroup *subgroup, void *user_data)
 {
 	struct bt_bap_broadcast_sink *sink = user_data;
 	struct bt_bap_broadcast_sink_subgroup *sink_subgroup =
@@ -545,13 +545,13 @@ static bool base_subgroup_cb(const struct bt_bap_base_subgroup *subgroup, void *
 		return false;
 	}
 
-	ret = bt_bap_base_subgroup_codec_to_codec_cfg(subgroup, &sink_subgroup->codec_cfg);
+	ret = bt_bap_bass_subgroup_codec_to_codec_cfg(subgroup, &sink_subgroup->codec_cfg);
 	if (ret < 0) {
 		LOG_DBG("Could not store codec_cfg: %d", ret);
 		return false;
 	}
 
-	ret = bt_bap_base_subgroup_foreach_bis(subgroup, base_subgroup_bis_index_cb,
+	ret = bt_bap_bass_subgroup_foreach_bis(subgroup, base_subgroup_bis_index_cb,
 					       &sink_subgroup->bis_indexes);
 	if (ret < 0) {
 		LOG_DBG("Could not parse BISes: %d", ret);
@@ -598,7 +598,7 @@ static int store_base_info(struct bt_bap_broadcast_sink *sink, const struct bt_b
 	return 0;
 }
 
-static bool base_subgroup_bis_count_cb(const struct bt_bap_base_subgroup *subgroup, void *user_data)
+static bool base_subgroup_bis_count_cb(const struct bt_bap_bass_subgroup *subgroup, void *user_data)
 {
 	uint8_t *bis_cnt = user_data;
 	int ret;

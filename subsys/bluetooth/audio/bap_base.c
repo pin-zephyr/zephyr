@@ -243,11 +243,11 @@ int bt_bap_base_get_subgroup_count(const struct bt_bap_base *base)
 }
 
 int bt_bap_base_foreach_subgroup(const struct bt_bap_base *base,
-				 bool (*func)(const struct bt_bap_base_subgroup *data,
+				 bool (*func)(const struct bt_bap_bass_subgroup *data,
 					      void *user_data),
 				 void *user_data)
 {
-	struct bt_bap_base_subgroup *subgroup;
+	struct bt_bap_bass_subgroup *subgroup;
 	struct net_buf_simple net_buf;
 	uint8_t subgroup_count;
 
@@ -268,7 +268,7 @@ int bt_bap_base_foreach_subgroup(const struct bt_bap_base *base,
 	subgroup_count = net_buf_simple_pull_u8(&net_buf);
 
 	for (uint8_t i = 0U; i < subgroup_count; i++) {
-		subgroup = (struct bt_bap_base_subgroup *)net_buf.data;
+		subgroup = (struct bt_bap_bass_subgroup *)net_buf.data;
 		if (!func(subgroup, user_data)) {
 			LOG_DBG("user stopped parsing");
 
@@ -300,7 +300,7 @@ int bt_bap_base_foreach_subgroup(const struct bt_bap_base *base,
 	return 0;
 }
 
-int bt_bap_base_get_subgroup_codec_id(const struct bt_bap_base_subgroup *subgroup,
+int bt_bap_base_get_subgroup_codec_id(const struct bt_bap_bass_subgroup *subgroup,
 				      struct bt_bap_base_codec_id *codec_id)
 {
 	struct net_buf_simple net_buf;
@@ -324,7 +324,7 @@ int bt_bap_base_get_subgroup_codec_id(const struct bt_bap_base_subgroup *subgrou
 	return 0;
 }
 
-int bt_bap_base_get_subgroup_codec_data(const struct bt_bap_base_subgroup *subgroup, uint8_t **data)
+int bt_bap_base_get_subgroup_codec_data(const struct bt_bap_bass_subgroup *subgroup, uint8_t **data)
 {
 	struct net_buf_simple net_buf;
 
@@ -348,7 +348,7 @@ int bt_bap_base_get_subgroup_codec_data(const struct bt_bap_base_subgroup *subgr
 	return base_pull_ltv(&net_buf, data);
 }
 
-int bt_bap_base_get_subgroup_codec_meta(const struct bt_bap_base_subgroup *subgroup, uint8_t **meta)
+int bt_bap_base_get_subgroup_codec_meta(const struct bt_bap_bass_subgroup *subgroup, uint8_t **meta)
 {
 	struct net_buf_simple net_buf;
 
@@ -375,7 +375,7 @@ int bt_bap_base_get_subgroup_codec_meta(const struct bt_bap_base_subgroup *subgr
 	return base_pull_ltv(&net_buf, meta);
 }
 
-int bt_bap_base_subgroup_codec_to_codec_cfg(const struct bt_bap_base_subgroup *subgroup,
+int bt_bap_bass_subgroup_codec_to_codec_cfg(const struct bt_bap_bass_subgroup *subgroup,
 					    struct bt_audio_codec_cfg *codec_cfg)
 {
 	struct bt_bap_base_codec_id codec_id;
@@ -431,7 +431,7 @@ int bt_bap_base_subgroup_codec_to_codec_cfg(const struct bt_bap_base_subgroup *s
 
 	return 0;
 }
-int bt_bap_base_get_subgroup_bis_count(const struct bt_bap_base_subgroup *subgroup)
+int bt_bap_base_get_subgroup_bis_count(const struct bt_bap_bass_subgroup *subgroup)
 {
 	struct net_buf_simple net_buf;
 
@@ -446,8 +446,8 @@ int bt_bap_base_get_subgroup_bis_count(const struct bt_bap_base_subgroup *subgro
 	return base_pull_bis_count(&net_buf);
 }
 
-int bt_bap_base_subgroup_foreach_bis(const struct bt_bap_base_subgroup *subgroup,
-				     bool (*func)(const struct bt_bap_base_subgroup_bis *subgroup,
+int bt_bap_bass_subgroup_foreach_bis(const struct bt_bap_bass_subgroup *subgroup,
+				     bool (*func)(const struct bt_bap_bass_subgroup_bis *subgroup,
 						  void *user_data),
 				     void *user_data)
 {
@@ -478,7 +478,7 @@ int bt_bap_base_subgroup_foreach_bis(const struct bt_bap_base_subgroup *subgroup
 	base_pull_ltv(&net_buf, NULL);
 
 	for (uint8_t i = 0U; i < bis_count; i++) {
-		struct bt_bap_base_subgroup_bis bis;
+		struct bt_bap_bass_subgroup_bis bis;
 
 		bis.index = net_buf_simple_pull_u8(&net_buf); /* index */
 
@@ -495,7 +495,7 @@ int bt_bap_base_subgroup_foreach_bis(const struct bt_bap_base_subgroup *subgroup
 	return 0;
 }
 
-int bt_bap_base_subgroup_bis_codec_to_codec_cfg(const struct bt_bap_base_subgroup_bis *bis,
+int bt_bap_bass_subgroup_bis_codec_to_codec_cfg(const struct bt_bap_bass_subgroup_bis *bis,
 						struct bt_audio_codec_cfg *codec_cfg)
 {
 	CHECKIF(bis == NULL) {
@@ -523,7 +523,7 @@ int bt_bap_base_subgroup_bis_codec_to_codec_cfg(const struct bt_bap_base_subgrou
 	return 0;
 }
 
-static bool base_subgroup_bis_cb(const struct bt_bap_base_subgroup_bis *bis, void *user_data)
+static bool base_subgroup_bis_cb(const struct bt_bap_bass_subgroup_bis *bis, void *user_data)
 {
 	uint32_t *base_bis_index_bitfield = user_data;
 
@@ -532,9 +532,9 @@ static bool base_subgroup_bis_cb(const struct bt_bap_base_subgroup_bis *bis, voi
 	return true;
 }
 
-static bool base_subgroup_cb(const struct bt_bap_base_subgroup *subgroup, void *user_data)
+static bool base_subgroup_cb(const struct bt_bap_bass_subgroup *subgroup, void *user_data)
 {
-	const int err = bt_bap_base_subgroup_foreach_bis(subgroup, base_subgroup_bis_cb, user_data);
+	const int err = bt_bap_bass_subgroup_foreach_bis(subgroup, base_subgroup_bis_cb, user_data);
 
 	if (err != 0) {
 		LOG_DBG("Failed to parse all BIS: %d", err);

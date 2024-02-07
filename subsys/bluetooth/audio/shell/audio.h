@@ -242,7 +242,7 @@ extern struct shell_stream broadcast_source_streams[CONFIG_BT_BAP_BROADCAST_SRC_
 extern struct broadcast_source default_source;
 #endif /* CONFIG_BT_BAP_BROADCAST_SOURCE */
 
-static inline bool print_base_subgroup_bis_cb(const struct bt_bap_base_subgroup_bis *bis,
+static inline bool print_base_subgroup_bis_cb(const struct bt_bap_bass_subgroup_bis *bis,
 					      void *user_data)
 {
 	struct bt_bap_base_codec_id *codec_id = user_data;
@@ -258,7 +258,7 @@ static inline bool print_base_subgroup_bis_cb(const struct bt_bap_base_subgroup_
 	return true;
 }
 
-static inline bool print_base_subgroup_cb(const struct bt_bap_base_subgroup *subgroup,
+static inline bool print_base_subgroup_cb(const struct bt_bap_bass_subgroup *subgroup,
 					  void *user_data)
 {
 	struct bt_bap_base_codec_id codec_id;
@@ -300,7 +300,7 @@ static inline bool print_base_subgroup_cb(const struct bt_bap_base_subgroup *sub
 		shell_hexdump(ctx_shell, data, (uint8_t)ret);
 	}
 
-	ret = bt_bap_base_subgroup_foreach_bis(subgroup, print_base_subgroup_bis_cb, &codec_id);
+	ret = bt_bap_bass_subgroup_foreach_bis(subgroup, print_base_subgroup_bis_cb, &codec_id);
 	if (ret < 0) {
 		return false;
 	}

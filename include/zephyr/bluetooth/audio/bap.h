@@ -25,15 +25,6 @@
 extern "C" {
 #endif
 
-
-#if defined(CONFIG_BT_BAP_SCAN_DELEGATOR)
-#define BT_BAP_SCAN_DELEGATOR_MAX_METADATA_LEN CONFIG_BT_BAP_SCAN_DELEGATOR_MAX_METADATA_LEN
-#define BT_BAP_SCAN_DELEGATOR_MAX_SUBGROUPS    CONFIG_BT_BAP_SCAN_DELEGATOR_MAX_SUBGROUPS
-#else
-#define BT_BAP_SCAN_DELEGATOR_MAX_METADATA_LEN 0
-#define BT_BAP_SCAN_DELEGATOR_MAX_SUBGROUPS    0
-#endif
-
 /** Periodic advertising state reported by the Scan Delegator */
 enum bt_bap_pa_state {
 	/** The periodic advertising has not been synchronized */
@@ -255,7 +246,7 @@ struct bt_bap_unicast_group;
 struct bt_bap_ep;
 
 /** Struct to hold subgroup specific information for the receive state */
-struct bt_bap_scan_delegator_subgroup {
+struct bt_bap_bass_subgroup {
 	/** BIS synced bitfield */
 	uint32_t bis_sync;
 
@@ -263,7 +254,7 @@ struct bt_bap_scan_delegator_subgroup {
 	uint8_t metadata_len;
 
 	/** The metadata */
-	uint8_t metadata[BT_BAP_SCAN_DELEGATOR_MAX_METADATA_LEN];
+	uint8_t metadata[CONFIG_BT_AUDIO_CODEC_CFG_MAX_METADATA_SIZE];
 };
 
 /** Represents the Broadcast Audio Scan Service receive state */
@@ -296,7 +287,7 @@ struct bt_bap_scan_delegator_recv_state {
 	uint8_t num_subgroups;
 
 	/** Subgroup specific information */
-	struct bt_bap_scan_delegator_subgroup subgroups[BT_BAP_SCAN_DELEGATOR_MAX_SUBGROUPS];
+	struct bt_bap_bass_subgroup subgroups[CONFIG_BT_BAP_BASS_MAX_SUBGROUPS];
 };
 
 struct bt_bap_scan_delegator_cb {
@@ -391,7 +382,7 @@ struct bt_bap_scan_delegator_cb {
 	 */
 	int (*bis_sync_req)(struct bt_conn *conn,
 			    const struct bt_bap_scan_delegator_recv_state *recv_state,
-			    const uint32_t bis_sync_req[BT_BAP_SCAN_DELEGATOR_MAX_SUBGROUPS]);
+			    const uint32_t bis_sync_req[CONFIG_BT_BAP_BASS_MAX_SUBGROUPS]);
 };
 
 /** Structure holding information of audio stream endpoint */
@@ -1359,7 +1350,7 @@ int bt_bap_unicast_client_discover(struct bt_conn *conn, enum bt_audio_dir dir);
  */
 
 /** @brief Abstract Broadcast Audio Source Endpoint (BASE) subgroup structure. */
-struct bt_bap_base_subgroup;
+struct bt_bap_bass_subgroup;
 /** @brief Abstract Broadcast Audio Source Endpoint (BASE) structure. */
 struct bt_bap_base;
 
@@ -1374,7 +1365,7 @@ struct bt_bap_base_codec_id {
 };
 
 /** BIS structure for each BIS in a Broadcast Audio Source Endpoint (BASE) subgroup */
-struct bt_bap_base_subgroup_bis {
+struct bt_bap_bass_subgroup_bis {
 	/* Unique index of the BIS */
 	uint8_t index;
 	/** Codec Specific Data length. */
@@ -1436,7 +1427,7 @@ int bt_bap_base_get_bis_indexes(const struct bt_bap_base *base, uint32_t *bis_in
  * @retval 0 if all subgroups were iterated
  */
 int bt_bap_base_foreach_subgroup(const struct bt_bap_base *base,
-				 bool (*func)(const struct bt_bap_base_subgroup *subgroup,
+				 bool (*func)(const struct bt_bap_bass_subgroup *subgroup,
 					      void *user_data),
 				 void *user_data);
 
@@ -1449,7 +1440,7 @@ int bt_bap_base_foreach_subgroup(const struct bt_bap_base *base,
  * @retval -EINVAL if arguments are invalid
  * @retval 0 on success
  */
-int bt_bap_base_get_subgroup_codec_id(const struct bt_bap_base_subgroup *subgroup,
+int bt_bap_base_get_subgroup_codec_id(const struct bt_bap_bass_subgroup *subgroup,
 				      struct bt_bap_base_codec_id *codec_id);
 
 /**
@@ -1461,7 +1452,7 @@ int bt_bap_base_get_subgroup_codec_id(const struct bt_bap_base_subgroup *subgrou
  * @retval -EINVAL if arguments are invalid
  * @retval 0 on success
  */
-int bt_bap_base_get_subgroup_codec_data(const struct bt_bap_base_subgroup *subgroup,
+int bt_bap_base_get_subgroup_codec_data(const struct bt_bap_bass_subgroup *subgroup,
 					uint8_t **data);
 
 /**
@@ -1473,7 +1464,7 @@ int bt_bap_base_get_subgroup_codec_data(const struct bt_bap_base_subgroup *subgr
  * @retval -EINVAL if arguments are invalid
  * @retval 0 on success
  */
-int bt_bap_base_get_subgroup_codec_meta(const struct bt_bap_base_subgroup *subgroup,
+int bt_bap_base_get_subgroup_codec_meta(const struct bt_bap_bass_subgroup *subgroup,
 					uint8_t **meta);
 
 /**
@@ -1486,7 +1477,7 @@ int bt_bap_base_get_subgroup_codec_meta(const struct bt_bap_base_subgroup *subgr
  * @retval -ENOMEM if the @p codec_cfg cannot store the @p subgroup codec data
  * @retval 0 on success
  */
-int bt_bap_base_subgroup_codec_to_codec_cfg(const struct bt_bap_base_subgroup *subgroup,
+int bt_bap_bass_subgroup_codec_to_codec_cfg(const struct bt_bap_bass_subgroup *subgroup,
 					    struct bt_audio_codec_cfg *codec_cfg);
 
 /**
@@ -1497,7 +1488,7 @@ int bt_bap_base_subgroup_codec_to_codec_cfg(const struct bt_bap_base_subgroup *s
  * @retval -EINVAL if arguments are invalid
  * @retval The 8-bit BIS count value
  */
-int bt_bap_base_get_subgroup_bis_count(const struct bt_bap_base_subgroup *subgroup);
+int bt_bap_base_get_subgroup_bis_count(const struct bt_bap_bass_subgroup *subgroup);
 
 /**
  * @brief Iterate on all BIS in the subgroup
@@ -1510,8 +1501,8 @@ int bt_bap_base_get_subgroup_bis_count(const struct bt_bap_base_subgroup *subgro
  * @retval -ECANCELED if iterating over the subgroups stopped prematurely by @p func
  * @retval 0 if all BIS were iterated
  */
-int bt_bap_base_subgroup_foreach_bis(const struct bt_bap_base_subgroup *subgroup,
-				     bool (*func)(const struct bt_bap_base_subgroup_bis *bis,
+int bt_bap_bass_subgroup_foreach_bis(const struct bt_bap_bass_subgroup *subgroup,
+				     bool (*func)(const struct bt_bap_bass_subgroup_bis *bis,
 						  void *user_data),
 				     void *user_data);
 
@@ -1528,7 +1519,7 @@ int bt_bap_base_subgroup_foreach_bis(const struct bt_bap_base_subgroup *subgroup
  * @retval -ENOMEM if the @p codec_cfg cannot store the @p subgroup codec data
  * @retval 0 on success
  */
-int bt_bap_base_subgroup_bis_codec_to_codec_cfg(const struct bt_bap_base_subgroup_bis *bis,
+int bt_bap_bass_subgroup_bis_codec_to_codec_cfg(const struct bt_bap_bass_subgroup_bis *bis,
 						struct bt_audio_codec_cfg *codec_cfg);
 
 /** @} */ /* End of group bt_bap_broadcast */
@@ -1907,7 +1898,7 @@ int bt_bap_scan_delegator_set_pa_state(uint8_t src_id,
  */
 int bt_bap_scan_delegator_set_bis_sync_state(
 	uint8_t src_id,
-	uint32_t bis_synced[BT_BAP_SCAN_DELEGATOR_MAX_SUBGROUPS]);
+	uint32_t bis_synced[CONFIG_BT_BAP_BASS_MAX_SUBGROUPS]);
 
 struct bt_bap_scan_delegator_add_src_param {
 	/** The periodic adverting sync */
@@ -1923,7 +1914,7 @@ struct bt_bap_scan_delegator_add_src_param {
 	uint8_t num_subgroups;
 
 	/** Subgroup specific information */
-	struct bt_bap_scan_delegator_subgroup subgroups[BT_BAP_SCAN_DELEGATOR_MAX_SUBGROUPS];
+	struct bt_bap_bass_subgroup subgroups[CONFIG_BT_BAP_BASS_MAX_SUBGROUPS];
 };
 
 /**
@@ -1960,7 +1951,7 @@ struct bt_bap_scan_delegator_mod_src_param {
 	 * If a subgroup's metadata_len is set to 0, the existing metadata
 	 * for the subgroup will remain unchanged
 	 */
-	struct bt_bap_scan_delegator_subgroup subgroups[BT_BAP_SCAN_DELEGATOR_MAX_SUBGROUPS];
+	struct bt_bap_bass_subgroup subgroups[CONFIG_BT_BAP_BASS_MAX_SUBGROUPS];
 };
 
 /**
@@ -2200,7 +2191,7 @@ struct bt_bap_broadcast_assistant_add_src_param {
 	uint8_t num_subgroups;
 
 	/** Pointer to array of subgroups */
-	struct bt_bap_scan_delegator_subgroup *subgroups;
+	struct bt_bap_bass_subgroup *subgroups;
 };
 
 /**
@@ -2233,7 +2224,7 @@ struct bt_bap_broadcast_assistant_mod_src_param {
 	uint8_t num_subgroups;
 
 	/** Pointer to array of subgroups */
-	struct bt_bap_scan_delegator_subgroup *subgroups;
+	struct bt_bap_bass_subgroup *subgroups;
 };
 
 /** @brief Modify a source on the server.
